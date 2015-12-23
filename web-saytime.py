@@ -9,7 +9,7 @@ import time, saytime
 t = time.localtime()
 print("Content-type: text/html\n")
 print(
-    "In Phoenix, Arizona, it is now " +
+    "U Batajnici, sada je priblizno " +
     saytime.saytime_t(t).words() +
     time.strftime(', on %A, %d %B %Y.')
 )
