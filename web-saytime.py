@@ -13,7 +13,7 @@ print(
     saytime.saytime_t(t).words() +
     ", na " +
     serb.Serbtm.day() +
-    time.strftime(' %d %B %Y.')
+    time.strftime(' %d %B %Y. godine.')
 )
 
 

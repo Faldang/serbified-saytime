@@ -18,6 +18,12 @@ class Serbtm():
                  "Sunday":"Nedelju"}
         return a[time.strftime("%A")]
 
+        
+
+# dodaj og, eg samo za 3. i 23.
+# dodaj mesece
+
+
 def main():
     pass
 
