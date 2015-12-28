@@ -4,14 +4,16 @@
 # CGI/SSI version for bw.org
 #
 
-import time, saytime
+import time, saytime, serb
 
 t = time.localtime()
 print("Content-type: text/html\n")
 print(
     "U Batajnici, sada je priblizno " +
     saytime.saytime_t(t).words() +
-    time.strftime(', on %A, %d %B %Y.')
+    ", na " +
+    serb.Serbtm.day() +
+    time.strftime(' %d %B %Y.')
 )
 
 
