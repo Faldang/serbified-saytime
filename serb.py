@@ -6,9 +6,7 @@
 
 import time
 
-class Serbtm():
-    
-    def day():
+def day():
         a = {"Monday":"Ponedeljak",
                  "Tuesday":"Utorak",
                  "Wednesday":"Sredu",
@@ -16,7 +14,13 @@ class Serbtm():
                  "Friday":"Petak",
                  "Saturday":"Subotu",
                  "Sunday":"Nedelju"}
-        return a[time.strftime("%A")]
+        return a[time.strftime("%A")] + " "
+    
+def mth():
+    t = time.localtime()
+    months = ["Januara", "Februara", "Marta", "Aprila", "Maja", "Juna", "Jula",
+              "Avgusta", "Septembra", "Oktobra", "Novembra", "Decembra"]
+    return months[t.tm_mon-1]
 
 def main():
     pass

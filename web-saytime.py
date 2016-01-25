@@ -7,13 +7,17 @@
 import time, saytime, serb
 
 t = time.localtime()
+#returns time struct object
+
 print("Content-type: text/html\n")
 print(
     "U Batajnici, sada je priblizno " +
     saytime.saytime_t(t).words() +
     ", na " +
-    serb.Serbtm.day() +
-    time.strftime(' %d %B %Y.')
+    serb.day() +
+    str(t.tm_mday) + "og " +
+    serb.mth() +
+    time.strftime(' %Y. godine.')
 )
 
 
