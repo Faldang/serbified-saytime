@@ -14,15 +14,15 @@ class numwords():
     """
     _words = {
         'ones': (
-            'oh', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'
+            'nula', 'jedan', 'dva', 'tri', 'cetiri', 'pet', 'sest', 'sedam', 'osam', 'devet'
         ), 'tens': (
-            '', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+            '', 'deset', 'dvadeset', 'trideset', 'cetrdeset', 'pedeset', 'sezdeset', 'sedamdeset', 'osamdeset', 'devedeset'
         ), 'teens': (
-            'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen' 
+            'deset', 'jedanaest', 'dvanaest', 'trinaest', 'cetrnaest', 'petnaest', 'sesnaest', 'sedamnaest', 'osamnaest', 'devetnaest' 
         ), 'quarters': (
-            'o\'clock', 'quarter', 'half'
+            'o\'clock', 'cetvrt', 'pola'
         ), 'range': {
-            'hundred': 'hundred'
+            'hundred': 'stotina'
         }, 'misc': {
             'minus': 'minus'
         }
@@ -47,11 +47,13 @@ class numwords():
             m = n % 10
             t = n // 10
             s += self._words['tens'][t]
-            if m: s += '-' + numwords(m).numwords()    # recurse for remainder
+            if m: s += ' ' + numwords(m).numwords()    # recurse for remainder
         elif n < 1000:      # hundreds
             m = n % 100
             t = n // 100
-            s += self._words['ones'][t] + ' ' + self._words['range']['hundred']
+            if t==1: s += 'sto'
+            elif t==2: s += 'dve stotine'
+            else: s += self._words['ones'][t] + ' ' + self._words['range']['hundred']
             if m: s += ' ' + numwords(m).numwords()    # recurse for remainder
         else:
             s += self._oor
@@ -119,20 +121,21 @@ class saytime_t(saytime):   # wrapper for saytime to use time object
         self._min = t.tm_min
 
 def main():
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'test':
-            test()
-        else:
-            try: print(saytime(*(sys.argv[1].split(':'))).words())
-            except TypeError: print("Invalid time ({})".format(sys.argv[1]))
-    else:
-        print(saytime_t(time.localtime()).words())
+    test()
+    # if len(sys.argv) > 1:
+    #     if sys.argv[1] == 'test':
+    #         test()
+    #     else:
+    #         try: print(saytime(*(sys.argv[1].split(':'))).words())
+    #         except TypeError: print("Invalid time ({})".format(sys.argv[1]))
+    # else:
+    #     print(saytime_t(time.localtime()).words())
 
 def test():
     print("\nnumbers test:")
     list = (
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 19, 20, 30, 
-        50, 51, 52, 55, 59, 99, 100, 101, 112, 900, 999, 1000 
+        50, 51, 52, 55, 59, 99, 100, 101, 112, 200, 253, 900, 999, 1000 
     )
     for l in list:
         print(l, numwords(l).numwords())
