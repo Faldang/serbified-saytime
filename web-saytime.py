@@ -19,5 +19,3 @@ print(
     serb.mth() +
     time.strftime(' %Y. godine.')
 )
-
-#PENIS PENIS PENIS
