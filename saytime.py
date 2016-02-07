@@ -20,7 +20,8 @@ class numwords():
         ), 'teens': (
             'deset', 'jedanaest', 'dvanaest', 'trinaest', 'cetrnaest', 'petnaest', 'sesnaest', 'sedamnaest', 'osamnaest', 'devetnaest' 
         ), 'quarters': (
-            'o\'clock', 'cetvrt', 'pola'
+            ('', 'sat' ,'sata', 'sata', 'sata', 'sati', 'sati', 'sati', 'sati', 'sati', 'sati', 'sati', 'sati') ,
+            'cetvrt', 'pola'
         ), 'range': {
             'hundred': 'stotina'
         }, 'misc': {
@@ -70,10 +71,11 @@ class saytime(numwords):
     """
 
     _specials = {
-        'noon': 'noon',
-        'midnight': 'midnight',
-        'til': 'til',
-        'past': 'past'
+        'noon': 'podne',
+        'midnight': 'ponoc',
+        'til': 'do',
+        'past': 'i',
+        'tilmidnight': 'ponoci'
     }
 
     def __init__(self, h, m):
@@ -95,14 +97,16 @@ class saytime(numwords):
         if h > 23: h -= 24
         elif h > 12: h -= 12
 
-        # hword is the hours word)
-        if h is 0: hword = self._specials['midnight']
+        # hword is the hours word) h is 0
+        hcond = (h is 0 and m is 0) or (h is 0 and m is 15 and sign is 'do')
+        if hcond and sign is 'do': hword = self._specials['tilmidnight']
+        elif hcond: hword = self._specials['midnight']
         elif h is 12: hword = self._specials['noon']
         else: hword = self.numwords(h)
 
         if m is 0:
             if h in (0, 12): return hword   # for noon and midnight
-            else: return "{} {}".format(self.numwords(h), self._words['quarters'][m])
+            else: return "{} {}".format(self.numwords(h), self._words['quarters'][m][h])
         if m % 15 is 0:
             return "{} {} {}".format(self._words['quarters'][m // 15], sign, hword) 
         return "{} {} {}".format(self.numwords(m), sign, hword) 
