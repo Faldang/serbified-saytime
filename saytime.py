@@ -90,26 +90,32 @@ class saytime(numwords):
         if m > 59: return self._oor
 
         sign = self._specials['past']        
-        if self._min > 30:
+        
+        if self._min >= 30:
             sign = self._specials['til']
             h += 1
             m = 60 - m
         if h > 23: h -= 24
         elif h > 12: h -= 12
+        if self._min == 30: return "pola {}".format(self.numwords(h))
 
-        # hword is the hours word) h is 0
+        # hword is the hours word)
         hcond = (h is 0 and m is 0) or (h is 0 and m is 15 and sign is 'do')
         if hcond and sign is 'do': hword = self._specials['tilmidnight']
-        elif hcond: hword = self._specials['midnight']
-        elif h is 12: hword = self._specials['noon']
+        elif (h is 0 and m is 0): hword = self._specials['midnight']
+        elif h is 12 and (self._min>=30 or self._min==0): hword = self._specials['noon']
+        elif h is 0: hword = self.numwords(h+12)
         else: hword = self.numwords(h)
 
         if m is 0:
-            if h in (0, 12): return hword   # for noon and midnight
+            if h is 0: return hword   # for noon and midnight
+            elif h is 12: return hword
             else: return "{} {}".format(self.numwords(h), self._words['quarters'][m][h])
         if m % 15 is 0:
-            return "{} {} {}".format(self._words['quarters'][m // 15], sign, hword) 
-        return "{} {} {}".format(self.numwords(m), sign, hword) 
+            if self._min >= 30: return "{} {} {}".format(self._words['quarters'][m // 15], sign, hword) 
+            else: return "{} {} {}".format(hword, sign, self._words['quarters'][m // 15]) 
+        if self._min >= 30: return "{} {} {}".format(self.numwords(m), sign, hword)
+        return "{} {} {}".format(hword, sign, self.numwords(m),) 
 
     def digits(self):
         "return the traditionl time, e.g., 13:42"
@@ -126,14 +132,14 @@ class saytime_t(saytime):   # wrapper for saytime to use time object
 
 def main():
     test()
-    # if len(sys.argv) > 1:
-    #     if sys.argv[1] == 'test':
-    #         test()
-    #     else:
-    #         try: print(saytime(*(sys.argv[1].split(':'))).words())
-    #         except TypeError: print("Invalid time ({})".format(sys.argv[1]))
-    # else:
-    #     print(saytime_t(time.localtime()).words())
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'test':
+            test()
+        else:
+            try: print(saytime(*(sys.argv[1].split(':'))).words())
+            except TypeError: print("Invalid time ({})".format(sys.argv[1]))
+    else:
+        print(saytime_t(time.localtime()).words())
 
 def test():
     print("\nnumbers test:")
@@ -147,7 +153,7 @@ def test():
     print("\ntime test:")
     list = (
         (0, 0), (0, 1), (11, 0), (12, 0), (13, 0), (12, 29), (12, 30),
-        (12, 31), (12, 15), (12, 30), (12, 45), (11, 59), (23, 15), 
+        (12, 31), (12, 15), (14, 30), (12, 45), (11, 59), (23, 15), 
         (23, 59), (12, 59), (13, 59), (1, 60), (24, 0)
     )
     for l in list:
