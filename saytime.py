@@ -7,6 +7,8 @@ import time
 
 __version__ = "1.1.0"
 
+import time, serb, sys
+
 class numwords():
     """
         return a number as words,
@@ -131,7 +133,7 @@ class saytime_t(saytime):   # wrapper for saytime to use time object
         self._min = t.tm_min
 
 def main():
-    test()
+    t = time.localtime()
     if len(sys.argv) > 1:
         if sys.argv[1] == 'test':
             test()
@@ -139,8 +141,15 @@ def main():
             try: print(saytime(*(sys.argv[1].split(':'))).words())
             except TypeError: print("Invalid time ({})".format(sys.argv[1]))
     else:
-        print(saytime_t(time.localtime()).words())
-
+        print(
+              "Sada je priblizno " +
+              saytime_t(t).words() +
+              ", na " +
+              serb.day() +
+              str(t.tm_mday) + "og " +
+              serb.mth() +
+              time.strftime(' %Y. godine.')
+              )
 def test():
     print("\nnumbers test:")
     list = (

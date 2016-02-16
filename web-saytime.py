@@ -11,7 +11,7 @@ t = time.localtime()
 
 print("Content-type: text/html\n")
 print(
-    "U Batajnici, sada je priblizno " +
+    "Sada je priblizno " +
     saytime.saytime_t(t).words() +
     ", na " +
     serb.day() +
